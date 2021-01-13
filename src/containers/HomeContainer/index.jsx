@@ -5,7 +5,24 @@ const HomeContainer = () => {
     const [artist, setArtist] = useState('')
     const [song, setSong] = useState('')
     const [responseData, setResponseData] = useState('')
-    
+
+    const handleInput = (e) => {
+        // console.log(e.target.value)
+        // console.log(e.target.name)
+        if(e.target.name === 'artist'){
+            console.log('artist input clicked')
+            setArtist(e.target.value)
+        } else if(e.target.name === 'song'){
+            console.log('song input clicked')
+            setSong(e.target.value)
+        }
+    }
+
+    const handleFetch = (e) => {
+        e.preventDefault()
+        console.log(artist, song)
+    }
+
 	return (
 		<>
 			<PageHeader>
@@ -14,10 +31,10 @@ const HomeContainer = () => {
             <main>
                 <FormContainer>
                     <label htmlFor="artist">Artist:</label>
-                    <input type="text" placeholder="type artist name here"/>
+                    <input name="artist" onChange={(e) => handleInput(e)}type="text" placeholder="type artist name here"/>
                     <label htmlFor="song">Song:</label>
-                    <input type="text" placeholder="type song title here"/>
-                    <button type="submit">Let's Sing!</button>
+                    <input name="song" onChange={(e) => handleInput(e)}type="text" placeholder="type song title here"/>
+                    <button onClick={(e) => handleFetch(e)}type="submit">Let's Sing!</button>
                 </FormContainer>
            </main>
 		</>
