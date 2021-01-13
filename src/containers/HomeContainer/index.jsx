@@ -1,35 +1,38 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import styled from 'styled-components';
 
 const HomeContainer = () => {
-    const [artist, setArtist] = useState('')
-    const [song, setSong] = useState('')
-    const [responseData, setResponseData] = useState('')
+    const [artist, setArtist] = useState(null)
+    const [song, setSong] = useState(null)
+    const [responseData, setResponseData] = useState(null)
+
+    useEffect(() => {
+
+    }, [responseData])
 
     const handleInput = (e) => {
-        // console.log(e.target.value)
-        // console.log(e.target.name)
         if(e.target.name === 'artist'){
-            console.log('artist input clicked')
             setArtist(e.target.value)
         } else if(e.target.name === 'song'){
-            console.log('song input clicked')
             setSong(e.target.value)
         }
     }
 
     const handleFetch = (e) => {
         e.preventDefault()
-        //console.log(artist, song)
-        fetch('https://api.lyrics.ovh/v1/abba/Waterloo')
+        fetch(`https://api.lyrics.ovh/v1/${artist}/${song}`)
         .then((response) => response.json())
         .then((data) => {
             console.log(data.lyrics)
+            setResponseData(data.lyrics)
         }).catch((error) => {
-            console.log(error)
+            console.log('There is an error', error)
         })
 
     }
+
+    const renderedLyrics = JSON.stringify(responseData)
+
 
 	return (
 		<>
@@ -44,6 +47,12 @@ const HomeContainer = () => {
                     <input name="song" onChange={(e) => handleInput(e)}type="text" placeholder="type song title here"/>
                     <button onClick={(e) => handleFetch(e)}type="submit">Let's Sing!</button>
                 </FormContainer>
+                <LyricContainer>
+                    {renderedLyrics}
+                </LyricContainer>
+     
+   
+
            </main>
 		</>
 	);
@@ -83,13 +92,11 @@ button {
 }
 `
 
+const LyricContainer = styled.article`
+font-size: 2.5rem;
+color: white;
+margin: 1rem 4rem;
+line-height: 3.5rem;
+`
+
 export default HomeContainer;
-
-
-// e.preventDefault()
-// console.log(artist, song)
-// fetch('https://api.lyrics.ovh/v1/Coldplay/Adventure of a Lifetime').then((response) => response.json()).then((data) => {
-//     console.log(data.lyrics)
-// }).catch((error) => {
-//     console.log(error)
-// })
