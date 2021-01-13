@@ -20,7 +20,15 @@ const HomeContainer = () => {
 
     const handleFetch = (e) => {
         e.preventDefault()
-        console.log(artist, song)
+        //console.log(artist, song)
+        fetch('https://api.lyrics.ovh/v1/abba/Waterloo')
+        .then((response) => response.json())
+        .then((data) => {
+            console.log(data.lyrics)
+        }).catch((error) => {
+            console.log(error)
+        })
+
     }
 
 	return (
@@ -76,3 +84,12 @@ button {
 `
 
 export default HomeContainer;
+
+
+// e.preventDefault()
+// console.log(artist, song)
+// fetch('https://api.lyrics.ovh/v1/Coldplay/Adventure of a Lifetime').then((response) => response.json()).then((data) => {
+//     console.log(data.lyrics)
+// }).catch((error) => {
+//     console.log(error)
+// })
